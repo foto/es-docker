@@ -29,10 +29,10 @@
 config 配置根据环境自行配置。
 
     # 集群名称
-    cluster.name: elk 
+    cluster.name: es
     
     # 节点名称，仅仅是描述名称
-    node.name: els-node                                 
+    node.name: es-node                                 
     
     # 数据的默认存放路径
     path.data: /usr/share/elasticsearch/data
@@ -52,14 +52,35 @@ config 配置根据环境自行配置。
     transport.tcp.compress: true
     
     #首次启动全新的Elasticsearch 集群时，默认选举节点
-    cluster.initial_master_nodes: els-node
+    cluster.initial_master_nodes: es-node
     
-    # 集群个节点IP地址，也可以使用els、els.shuaiguoxia.com等名称，需要各节点能够解析
+    # 集群个节点IP地址，也可以使用els、els.com等名称，需要各节点能够解析
     discovery.zen.ping.unicast.hosts: ["192.168.3.200", "192.168.3.201","192.168.3.188"]
     
     # 对集群的稳定性至关重要，防止脑裂的出现。
     discovery.zen.minimum_master_nodes: 2
     
+### 设置密码
+ES在7.0以后免费开放了安全模块 xpack。没错在7.0之前要企业版才有的功能。
 
+elasticsearch.yml配置文件中加入这三个配置：
+
+    http.cors.allow-headers: Authorization
+    xpack.security.enabled: true
+    xpack.security.transport.ssl.enabled: true
+
+进入容器
+
+    #重启es
+    docker restart es
+
+    #重启后进入es容器中
+    docker exec -it es /bin/bash
+
+    #进入es 目录
+    cd /usr/share/elasticsearch/bin
+
+    #执行命令，交互式设置密码（注意保存好全部密码）
+    ./elasticsearch-setup-passwords interactive
 
 

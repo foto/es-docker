@@ -1,21 +1,37 @@
+# 集群名称
+cluster.name: es
 
-cluster.name: yl                                    # 集群名称
-node.name: els-node                                 # 节点名称，仅仅是描述名称，用于在日志中区分
+# 节点名称，仅仅是描述名称
+node.name: es-node
 
-#path.data: /opt/elasticsearch/data                 # 数据的默认存放路径
-#path.logs: /opt/elasticsearch/log                  # 日志的默认存放路径
+# 数据的默认存放路径 容器中的位置。映射到宿主主机即可，不建议修改
+path.data: /usr/share/elasticsearch/data
 
-network.bind_host: 0.0.0.0                          # 当前节点的IP地址
+# 日志的默认存放路径 也是容器中的位置。映射到宿主主机即可，不建议修改
+path.logs: /usr/share/elasticsearch/log
+
+# 当前节点的IP地址
+network.bind_host: 0.0.0.0
+# 对外地址
 network.publish_host: 192.168.3.188
-http.port: 9200                                     # 对外提供服务的端口，9300为集群服务的端口
+# 端口
+http.port: 9200
+# 对外提供服务的端口，9300为集群服务的端口
 
-#添加如下内容
-#culster transport port
+#culster 中其他节点在与此节点通信时应使用的端口
 transport.tcp.port: 9300
 transport.tcp.compress: true
-cluster.initial_master_nodes: els-node1
 
-discovery.zen.ping.unicast.hosts: ["192.168.3.200", "192.168.3.201","192.168.3.188"]
+#首次启动全新的Elasticsearch 集群时，默认选举节点
+cluster.initial_master_nodes: es-node
+
 # 集群个节点IP地址，也可以使用els、els.shuaiguoxia.com等名称，需要各节点能够解析
+discovery.zen.ping.unicast.hosts: ["192.168.3.200", "192.168.3.201","192.168.3.188"]
 
+# 对集群的稳定性至关重要，防止脑裂的出现。
 discovery.zen.minimum_master_nodes: 2
+
+# 密码配置，初学者建议关闭
+#http.cors.allow-headers: Authorization
+#xpack.security.enabled: true
+#xpack.security.transport.ssl.enabled: true
