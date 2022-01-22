@@ -11,9 +11,9 @@
     
 启动容器
 
-    docker run --name elk-node -d \
+    docker run --name es-node -d \
     -p 9200:9200 -p 9300:9300 \ 
-    -v /docker/docker-es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \
+    -v /docker/docker-es/config/elasticsearch.yml:/usr/share/elasticsearc/config/elasticsearch.yml \
     -v /docker/docker-es/data:/usr/share/elasticsearch/data \
     -v /docker/docker-es/log:/usr/share/elasticsearch/log \
     docker.elastic.co/elasticsearch/elasticsearch:7.16.3
